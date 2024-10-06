@@ -2,7 +2,33 @@ const express = require("express");
 
 const app = express();
 
-app.use("/api/stuff", (req, res, next) => {
+//accès au corps d ela requette
+//ce middleware intercepte qui ont un content type json , met a disposition le corps de la requete sous forme d'objet javascript, dans req.body
+app.use(express.json()); //pareil que body.parser mais plus simple
+
+//ajout de middleware CORS
+//Pour permettre des requêtes cross-origin (et empêcher des erreurs CORS), des headers spécifiques de contrôle d'accès doivent être précisés pour tous vos objets de réponse.
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*"); //accès origine tout le mode
+    res.setHeader(
+        "Access-Control-Allow-Headers", //on autorise les entêtes suivants
+        "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods", //on autorise les méthodes suivants
+        "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    );
+    next();
+});
+
+app.post("/api/stuff", (req, res, next) => {
+    console.log(req.body); //pas de bdd , donc aps moyen d'enregistrer les données, on va juster lguer les données reçues
+    res.status(201).json({
+        message: "Objet créé !",
+    });
+});
+
+app.get("/api/stuff", (req, res, next) => {
     const stuff = [
         {
             _id: "oeihfzeoi",
