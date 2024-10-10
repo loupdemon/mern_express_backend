@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors"); // Importer cors
+const bodyParser = require("body-parser"); // Importer body-parser
 
 const app = express();
 
@@ -72,14 +73,17 @@ run().catch(console.dir);
 // });
 
 //REQUETTE POST POUR ENREGISTRER UN OBJET
+app.use(bodyParser.json());
 
 app.post("/api/stuff", (req, res, next) => {
+    delete req.body._id;
     const thing = new Thing({
-        title: req.body.title,
-        description: req.body.description,
-        imageUrl: req.body.imageUrl,
-        userId: req.body.userId,
-        price: req.body.price,
+        ...req.body,
+        //title: req.body.title,
+        //description: req.body.description,
+        //imageUrl: req.body.imageUrl,
+        //userId: req.body.userId,
+        //price: req.body.price,
     });
 
     thing
