@@ -14,11 +14,36 @@ exports.signup = (req, res, next) => {
             });
             user.save()
                 .then(() =>
-                    res.status(200).json({ message: "utilisateur crée!" })
+                    res.status(201).json({ message: "utilisateur crée!" })
                 )
                 .catch((error) => res.status(400).json({ errror }));
         })
         .catch((error) => res.status(500).json({ error }));
 };
 
-exports.login = (req, res, next) => {};
+exports.login = (req, res, next) => {
+    User.findOne({ email: req.body.email })
+        .then((user) => {
+            if (!user) {
+                return res
+                    .status(401)
+                    .json({ message: "Paire login/mot de passe incorrecte" }); //msg doit pas dire si adresse trouvée ou pas , afin de ne pas fuiter la donnée
+            }
+            bcrypt
+                .compare(req.body.password, user.password) //compare entre bcrypt sauvegardé en bdd et le hachage du mdp inséré
+                .then((valid) => {
+                    if (!valid) {
+                        return res.status(401).json({
+                            //401 erreur unauthorized
+                            message: "Paire login/mot de passe incorrecte",
+                        });
+                    }
+                    res.status(200).json({
+                        userId: user._id,
+                        token: "TOKEN",
+                    });
+                })
+                .catch((error) => res.status(500).json({ error }));
+        })
+        .catch((error) => res.status(500).json({ error }));
+};
