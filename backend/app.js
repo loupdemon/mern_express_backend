@@ -3,6 +3,7 @@ const cors = require("cors"); // Importer cors
 const mongoose = require("mongoose");
 
 const stuffRoutes = require("./routes/stuff");
+const userRoutes = require("./routes/user");
 
 //const bodyParser = require("body-parser"); // Importer body-parser pour transformer le corps des requêtes en objet JavaScript utilisable
 
@@ -35,4 +36,5 @@ mongoose
 
 // Middleware pour gérer les erreurs
 app.use("/api/stuff", stuffRoutes);
+app.use("/api/auth", userRoutes);
 module.exports = app;
