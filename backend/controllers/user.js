@@ -1,5 +1,8 @@
 const bcrypt = require("bcrypt");
 
+//import le jsonwebtoken
+const jwt = require("jsonwebtoken");
+
 const User = require("../models/User");
 
 //on aura besoind e deux middleware fonction sign-up et sign-in
@@ -40,7 +43,12 @@ exports.login = (req, res, next) => {
                     }
                     res.status(200).json({
                         userId: user._id,
-                        token: "TOKEN",
+                        //token: "TOKEN",
+                        token: jwt.sign(
+                            { userId: user._id }, //le payload
+                            "RANDOM_TOKEN_SECRET", //clé secret d'encodage
+                            { expiresIn: "24h" } //configuration expiration après chaque 24h
+                        ),
                     });
                 })
                 .catch((error) => res.status(500).json({ error }));
