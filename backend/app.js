@@ -10,7 +10,16 @@ const userRoutes = require("./routes/user");
 const app = express();
 app.use(express.json()); //pareil que body.parser mais plus simple, suffisant, body-parser est redondant
 
-// Configurer CORS
+/*
+-CORS signifie « Cross Origin Resource Sharing ». Il s'agit d'un système de sécurité qui, par défaut, 
+ bloque les appels HTTP entre des serveurs différents, ce qui empêche donc les requêtes malveillantes 
+ d'accéder à des ressources sensibles. Dans notre cas, nous avons deux origines : localhost:3000 et localhost:4200 , 
+ et nous souhaiterions qu'elles puissent communiquer entre elles. 
+ Pour cela, nous devons ajouter des headers à notre objet  response */
+
+/*Configurer CORS :
+-Le CORS définit comment les serveurs et les navigateurs interagissent, en spécifiant quelles ressources peuvent 
+ être demandées de manière légitime – par défaut, les requêtes AJAX sont interdites.*/
 const corsOptions = {
     origin: "http://localhost:4200", // Autoriser cette origine
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Autoriser ces méthodes HTTP

@@ -1,4 +1,8 @@
-//ce fichier content la logique métier de l'application
+//ce fichier content la logique métier de l'application et les liens des routes
+/*rapel:
+-La méthode : express.Router()  vous permet de créer des routeurs séparés pour 
+ chaque route principale de votre application – vous y enregistrez ensuite les routes individuelles.*/
+
 const express = require("express");
 const auth = require("../middleware/auth");
 

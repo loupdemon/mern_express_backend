@@ -9,3 +9,6 @@ const userSchema = mongoose.Schema({
 //appliquer validator au schema
 userSchema.plugin(uniqueValidator);
 module.exports = mongoose.model("User", userSchema);
+/*rappel:
+-mongoose-unique-validator  améliore les messages d'erreur lors de l'enregistrement de données uniques.
+*/

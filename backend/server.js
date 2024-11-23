@@ -70,6 +70,4 @@ const app = require("./app"); //importer l'application express
 app.set("port", process.env.PORT || 3000); //définir le port sur lequel l'application va tourner
 const server = http.createServer(app); //remplacer la fonction anonyme par app
 server.listen(process.env.PORT || 3000);
-
-
 */

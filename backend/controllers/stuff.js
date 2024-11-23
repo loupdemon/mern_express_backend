@@ -1,9 +1,19 @@
 const Thing = require("../models/Things");
 
+//Un fichier de contrôleur exporte des méthodes qui sont ensuite attribuées aux routes pour améliorer la maintenabilité de votre application.
+
+/*rappel: 
+Les méthodes de votre modèle Thing permettent d'interagir avec la base de données :
+-save()  – enregistre un Thing ;
+-find()  – retourne tous les Things ;
+-findOne()  – retourne un seul Thing basé sur la fonction de comparaison qu'on lui passe (souvent pour récupérer un Thing par son identifiant unique).
+La méthode  app.get()  permet de réagir uniquement aux requêtes de type GET.*/
+
 exports.createThing = (req, res, next) => {
     delete req.body._id;
     const thing = new Thing({
         ...req.body,
+        /*L'opérateur spread ... est utilisé pour faire une copie de tous les éléments de req.body*/
     });
 
     thing
@@ -16,6 +26,11 @@ exports.createThing = (req, res, next) => {
             }
         });
 };
+
+/*rappel:
+-L'utilisation du mot-clé new avec un modèle Mongoose crée par défaut un champ_id . Utiliser ce mot-clé générerait une erreur, 
+ car nous tenterions de modifier un champ immuable dans un document de la base de données. Par conséquent, 
+ nous devons utiliser le paramètre id de la requête pour configurer notre Thing avec le même _id qu'avant.*/
 
 exports.modifyThing = (req, res, next) => {
     Thing.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id }) //methode updateOne de mongoose pour mettre à jour un objet
